@@ -1,0 +1,14 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    "target": "ESNEXT",       // Versión a la cuál voy a compilar
+    "module": "commonjs",     // Módulos típicos de Node
+    "rootDir": "./src",       // Dónde están los .ts de código fuente
+    "outDir": "./dist",       // Dónde se escriben los .js compilados
+    "esModuleInterop": true,  // Permite importar módulos CommonJS con "import"
+    "strict": false,          // Cómo no quiero ser tan estricto, lo dejo en FALSE, para que me permita tener, por ej: ANY
+    "sourceMap": false,       // Genera mapas para debug
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

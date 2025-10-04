@@ -1,0 +1,22 @@
+// -----------------------------
+
+// Generator - Le dice a prisma que genere el cliente TypeScript para usar en el código ------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Datasource - De donde Prisma saca la base de datos - usa DATABASE_URL de .env ------
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// model => modelo / tabla - El lugar en donde registro los productos
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  name  String
+  price Float
+}
