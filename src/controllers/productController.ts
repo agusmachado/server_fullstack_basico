@@ -45,3 +45,58 @@ export async function listaProductos(_req: Request, res: Response, next: NextFun
         next(error)
     }
 }
+
+export async function editarProducto(req: Request, res: Response, next: NextFunction) {
+        
+    try {
+        // 1 - Validamos el id
+        // El id SIEMPRE viene como string "api/products/7" = "7"
+        const id = Number(req.params.id)
+        // Id válido(true) = 7, 2.5 - Id inválido(false) NaN - Infinity (-Infinitei)
+        if (!Number.isFinite(id)) {
+            return res.status(400).json({ message: "id inválido"})
+        }
+
+        const { name, price } = req.body as { name?: string; price?: number }
+
+        if (typeof name === "undefined" && typeof price === "undefined") {
+            return res.json(400).json({ message: "Nada que actualizar" })
+        }
+
+        // 2 - Actualizamos
+        const updated = await prisma.product.update({
+            where: { id },          // El id, cuyos campos dependientes (name o price) vamos a actualizar
+            data:{
+                ...(name !== undefined && { name }),    // Incluir un "name", SOLO si vino
+                ...(price !== undefined && { price }),  // Incluir un "price", SOLO si vino
+            },
+        })
+
+
+        // 3 - Respuesta de éxito
+        return res.json(updated)
+
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+export async function eliminarProducto(req: Request, res: Response, next: NextFunction) {
+    try {
+        // 1 - Ya lo validamos en validateParams, pero de todas formas, lo tipamos claro
+        const id = req.params.id as unknown as number  
+
+        // 2 - Intentamos eliminar el producto
+        await prisma.product.delete({ where: { id }})
+
+        // 3 - Si sale bien, respondemos 204 = No Content
+        // Cómo ya no existe el registro en la BD, no hace falta devolver un JSON
+        return res.status(204).send()
+
+
+    } catch (error) {
+        next(error)
+    }
+}

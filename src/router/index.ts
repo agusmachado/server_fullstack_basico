@@ -1,7 +1,8 @@
 import { Router } from "express"
-import { crearProducto, listaProductos } from "../controllers/productController"
+import { crearProducto, editarProducto, eliminarProducto, listaProductos } from "../controllers/productController"
 import { validateBody } from "../middleware/validate"
-import { ProductCreateSchema } from "../validators/product.schema"
+import { PrductIdParamsSchema, ProductCreateSchema, ProductPatchSchema } from "../validators/product.schema"
+import { validateParams } from "../middleware/validateParams"
 
 const router = Router()
 
@@ -11,12 +12,8 @@ router.get('/', listaProductos)
 
 router.post('/', validateBody(ProductCreateSchema), crearProducto)
 
-router.put('/', (req, res) => {    
-    res.json("Desde PUT")
-})
+router.patch("/:id", validateBody(ProductPatchSchema), editarProducto)
 
-router.delete('/', (req, res) => {    
-    res.json("Desde DELETE")
-})
+router.delete('/:id', validateParams(PrductIdParamsSchema), eliminarProducto)
 
 export default router 

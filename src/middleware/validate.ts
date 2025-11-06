@@ -8,6 +8,7 @@ import { Request, Response, NextFunction } from "express";
     - Este middleware se puede "conectar" en cualquier ruta POST/PUT/DELETE
 */
 
+
 export function validateBody<TSchema extends BaseSchema<any, any, any>>(schema: TSchema) {
     // TSchema es algún schema Valibot. No nos importa cuál, porque TSchema es genérico
 
