@@ -1,6 +1,7 @@
 import express from 'express' // Framework para crear servidores web
 import router from './router'
 import cors, { type CorsOptions } from 'cors'
+import { aiController } from './controllers/aiController'
 
 const app = express() // Creamos una nueva app de Express (nuestro servidor backend)
 
@@ -60,6 +61,9 @@ app.options(/.*/, cors(corsOptions))
 
 
 app.use('/api/products', router)
+
+app.get("/api/ai/products-profile", aiController)
+
 
 // 404 - "Not Found": se ejecuta si ninguna ruta contesta
 app.use((req, res, _next) => {
